@@ -89,14 +89,15 @@ gulp.task('server', ['build'], function() {
     .pipe(webserver({
       host: '127.0.0.1',
       port: 3000,
-      livereload: false,
+      livereload: true,
       directoryListing: false,
+      fallback: '/index.html',
       open: true
     }));
 });
 
 gulp.task('watch', function() {
-  gulp.watch('src/**/*.jsx', ['scripts']);
+  gulp.watch('src/**/*.js*', ['scripts']);
   gulp.watch('src/styles/**/*.scss', ['css']);
   gulp.watch('images/**/*.*', ['images']);
 });

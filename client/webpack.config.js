@@ -9,7 +9,7 @@ module.exports = {
         reasons: false
     },
     entry: {
-        main: ['./src/main.jsx']
+        main: ['./src/app.js']
     },
     output: {
         path: './public',
@@ -30,7 +30,7 @@ module.exports = {
                 loader: 'babel',
                 query:
                 {
-                  presets:['react', 'es2015']
+                  presets:['react', 'es2015', 'stage-0']
                 }
             },
         ],
