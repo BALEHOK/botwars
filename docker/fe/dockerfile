@@ -1,0 +1,10 @@
+FROM git:latest
+
+WORKDIR client
+
+#Install npm packages
+RUN npm install -g gulp && npm install
+
+EXPOSE 3000/tcp
+
+CMD ["gulp", "server"]

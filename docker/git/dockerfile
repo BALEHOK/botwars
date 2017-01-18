@@ -1,0 +1,27 @@
+FROM node:7.4-alpine
+
+# Make ssh dir
+RUN mkdir /root/.ssh/
+
+# Create known_hosts
+RUN touch /root/.ssh/known_hosts
+
+# Remove host checking
+RUN echo "Host github.com" > /root/.ssh/config && echo "StrictHostKeyChecking no" >> /root/.ssh/config
+
+# Copy over private key, and set permissions
+COPY id_rsa /root/.ssh/
+RUN chmod 700 /root/.ssh/id_rsa && chown -R root:root /root/.ssh
+
+# Install ssh and git
+RUN apk update && apk add \
+  openssh \
+  git
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+
+#Fetch repo from git
+ONBUILD RUN git clone git@github.com:BALEHOK/botwars.git /usr/src/app/botwars
+ONBUILD WORKDIR  /usr/src/app/botwars
+ONBUILD RUN git checkout stage

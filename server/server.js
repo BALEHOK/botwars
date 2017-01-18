@@ -1,25 +1,23 @@
-var express = require('express');
-var cors = require('./middlewares/cors');
-var users = require('./middlewares/users');
-var stormpath = require('express-stormpath');
-var bodyParser = require('body-parser');
+const dbMigration = require('./db/migrations');
+const express = require('express');
+const cors = require('./middlewares/cors');
+const users = require('./middlewares/users');
+const stormpath = require('express-stormpath');
+const bodyParser = require('body-parser');
 
 const clientUrl = 'http://127.0.0.1:3000';
 
+// db initialization
+const dbPromise = dbMigration.prepaireDb();
+
+// express app
 var app = express();
 
 app.use(cors);
 
 app.use(users(app));
 
-app.on('stormpath.ready', function () {
-  app.listen(3001, '127.0.0.1', function (err) {
-    if (err) {
-      return console.error(err);
-    }
-    console.log('Listening at http://127.0.0.1:3001');
-  });
-});
+const stormPathPromise = new Promise(resolve => app.on('stormpath.ready', resolve));
 
 app.use(bodyParser.json());
 
@@ -64,3 +62,17 @@ app.post('/me', stormpath.loginRequired, function (req, res) {
 });
 
 app.use('/bots', require('./controllers/ttt3BotController'));
+
+// for testing purposes only
+app.get('/', (req, res) => {
+  res.json({ message: 'I am accessible' });
+  res.end();
+})
+
+Promise.all([dbPromise, stormPathPromise])
+  .then(() => app.listen(3001, '0.0.0.0', err => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log('Listening at port 3001');
+  }));

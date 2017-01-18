@@ -4,7 +4,7 @@ import ReactStormpath from 'react-stormpath';
 import { ajaxConfig } from './common/ajax';
 import NavigationRouter from './navigationRouter';
 
-const serverUrl = 'http://127.0.0.1:3001';
+const serverUrl = process.env.SERVER_URL || 'http://127.0.0.1:3001';
 
 ajaxConfig({apiUrl: serverUrl});
 

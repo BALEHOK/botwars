@@ -1,32 +1,54 @@
 const db = require('./provider');
 
 const setQuery =
-  `INSERT INTO dict (key, value)
-    VALUES ($1, $2)
+  `INSERT INTO dict (key, valueString, valueInt)
+    VALUES ($1, $2, $3)
     ON CONFLICT (key) DO UPDATE
-      SET value = $2`;
-
-exports.set = (key, value) => {
+      SET valueString = $2, valueInt = $3`;
+async function set(key, valueString, valueInt) {
   if (typeof key !== 'string') {
     key = key.toString();
   }
 
-  const valueJson = JSON.stringify(value);
-
-  return db.query(setQuery, [key, valueJson])
+  return await db.query(setQuery, [key, valueString, valueInt])
 }
 
 const getQuery =
-  `SELECT value FROM dict
+  `SELECT valueString, valueInt FROM dict
     WHERE key = $1`;
-
-exports.get = (key) => {
-  return db.query(getQuery, [key])
-    .then((result, err) => {
-      if (!err && result && result.rows.length && result.rows[0].value) {
-        return JSON.parse(result.rows[0].value);
-      }
-
-      return null;
-    });
+async function get(key) {
+  return await db.querySingleOrDefault(getQuery, [key]);
 }
+
+class DictRepo {
+  setString(key, value) {
+    return set(key, value, null);
+  }
+
+  async getString(key) {
+    const result = await get(key);
+    return result && result.valuestring || null;
+  }
+
+  setInt(key, value) {
+    return set(key, null, value);
+  }
+
+  async getInt(key) {
+    const result = await get(key);
+    return result && result.valuesint || 0;
+  }
+
+  setObj(key, value) {
+    const valueJson = JSON.stringify(value);
+
+    return this.setString(key, valueJson);
+  }
+
+  async getObj(key) {
+    const result = await this.getString(key);
+    return JSON.parse(result);
+  }
+}
+
+module.exports = new DictRepo();

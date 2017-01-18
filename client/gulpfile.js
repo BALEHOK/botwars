@@ -87,12 +87,12 @@ gulp.task('index', function() {
 gulp.task('server', ['build'], function() {
   gulp.src(publicFolder)
     .pipe(webserver({
-      host: '127.0.0.1',
+      host: '0.0.0.0',
       port: 3000,
       livereload: true,
       directoryListing: false,
       fallback: '/index.html',
-      open: true
+      open: false
     }));
 });
 

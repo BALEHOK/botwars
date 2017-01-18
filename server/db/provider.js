@@ -1,5 +1,5 @@
 const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:pwd@localhost:5432/postgres';
+const connectionString = require('./connectionString');
 
 function query(queryText, values) {
   const client = new pg.Client(connectionString);
@@ -10,22 +10,24 @@ function query(queryText, values) {
   return q;
 }
 
+// returns the row or null
 async function querySingleOrDefault(queryText, values) {
    let res = await query(queryText, values);
    if (res.rows.length > 1) {
      throw 'multiple entries selected where expected a single entry';
    }
 
-   return res;
+   return res.rows[0] || null;
 }
 
+// returns the row
 async function querySingle(queryText, values) {
    let res = await querySingleOrDefault(queryText, values);
    if (res.rows.length === 0) {
      throw 'no enry selected where expected a single entry';
    }
 
-   return res;
+   return res.rows[0];
 }
 
 exports.query = query;

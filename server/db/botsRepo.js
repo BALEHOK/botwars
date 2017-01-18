@@ -40,11 +40,8 @@ const addBotVersion = `
     ($1, $2, $3, $4);`;
 
 exports.saveBot = async function (userId, gameId, source) {
-  let existingBotInfoRes = await db.querySingleOrDefault(getExistingBotInfo, [userId, gameId]);
-  let botInfo;
-  if (existingBotInfoRes.rows.length) {
-    botInfo = existingBotInfoRes.rows[0];
-
+  let botInfo = await db.querySingleOrDefault(getExistingBotInfo, [userId, gameId]);
+  if (botInfo) {
     botInfo.version = botInfo.maxversion + 1;
 
     await db.query(updateBotVersion, [botInfo.version]);
