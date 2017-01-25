@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  git:
+    build: ./git
+    image: git:latest
+  fe:
+    build: ./fe
+    ports:
+      - "80:3000"
+    environment:
+      SERVER_URL: "http://webserver:3001"
+    links:
+      - webserver
+    depends_on:
+      - git
+      - webserver
+    restart: always
+  webserver:
+    build: ./web-server
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+    links:
+      - db
+    depends_on:
+      - git
+      - db
+    restart: always
+  gamesserver:
+    build: ./games-server
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+    links:
+      - db
+    depends_on:
+      - git
+      - db
+    restart: always
+  db:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 'pwd'
+    restart: always

@@ -2,13 +2,17 @@ import React from 'react';
 import { Route, browserHistory, IndexRoute } from 'react-router';
 import { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
 
-import MasterPage from './masterPage';
-import Home from './home';
-import LoginPage from './login';
-import RegistrationPage from './registrationPage';
-import ProfilePage from './profilePage';
-import Ttt3 from './games/ticTacToe';
-import Gomoku from './games/gomoku';
+import MasterPage from 'components/masterPage';
+import Home from 'components/home';
+
+import LoginPage from 'components/auth/login';
+import RegistrationPage from 'components/auth/registrationPage';
+import ProfilePage from 'components/auth/profilePage';
+
+import Ttt3 from 'components/games/ticTacToe';
+import Gomoku from 'components/games/gomoku';
+
+import { TournamentsList, Tournament } from 'components/tournaments';
 
 export default class NavigationRouter extends React.Component {
   constructor(props) {
@@ -22,12 +26,21 @@ export default class NavigationRouter extends React.Component {
 
           <IndexRoute component={Home} />
 
-          <LoginRoute path='/login' component={LoginPage} />
-          <Route path='/register' component={RegistrationPage} />
-          <AuthenticatedRoute path='/profile' component={ProfilePage} />
+          <LoginRoute path='login' component={LoginPage} />
+          <Route path='register' component={RegistrationPage} />
+          <AuthenticatedRoute path='profile' component={ProfilePage} />
 
-          <Route path="/ttt3" component={Ttt3} />
-          <Route path="/gomoku" component={Gomoku} />
+          <Route path="games">
+            <IndexRoute component={Home} />
+            <Route path="ttt3" component={Ttt3} />
+            <Route path="gomoku" component={Gomoku} />
+          </Route>
+
+          <Route path="tournaments">
+            <IndexRoute component={TournamentsList} />
+
+            <Route path=":shortName" component={Tournament} />
+          </Route>
         </HomeRoute>
       </Router>
     );

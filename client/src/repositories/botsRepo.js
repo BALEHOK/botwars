@@ -1,4 +1,4 @@
-import { ajax } from '../common/ajax';
+import { ajax } from 'common/ajax';
 
 class BotsRepository {
   get(gameId) {

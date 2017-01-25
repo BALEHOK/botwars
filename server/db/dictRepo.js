@@ -36,12 +36,11 @@ class DictRepo {
 
   async getInt(key) {
     const result = await get(key);
-    return result && result.valuesint || 0;
+    return result && result.valueint || 0;
   }
 
   setObj(key, value) {
     const valueJson = JSON.stringify(value);
-
     return this.setString(key, valueJson);
   }
 

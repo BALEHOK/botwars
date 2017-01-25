@@ -1,0 +1,10 @@
+FROM git:latest
+
+WORKDIR server
+
+#Install npm packages
+RUN npm install -g nodemon && npm install
+
+EXPOSE 3001/tcp
+
+CMD ["npm", "run", "web"]

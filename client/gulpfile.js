@@ -63,15 +63,15 @@ gulp.task('scripts', function(done) {
     function(err, stats) {
       if(err){
         console.log("[webpack errors]");
-        console.log(err);
+        console.log(err.toString());
       }
       if (stats.compilation.errors && stats.compilation.errors.length) {
-        console.log("[compilation errors]");
-        console.log(stats.compilation.errors);
+        console.log('[compilation errors]', stats.compilation.errors.length);
+        stats.compilation.errors.map(e => console.log(e.toString()));
       }
       if (stats.compilation.warnings && stats.compilation.warnings.length) {
-        console.log("[compilation warnings]");
-        console.log(stats.compilation.warnings);
+        console.log('[compilation warnings]', stats.compilation.warnings.length);
+        stats.compilation.warnings.map(w => console.log(w.toString()));
       }
 
       done();

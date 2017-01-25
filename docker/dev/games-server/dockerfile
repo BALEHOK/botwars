@@ -1,0 +1,5 @@
+FROM botwars-server:latest
+
+EXPOSE 3002/tcp
+
+ENTRYPOINT /usr/local/bin/entrypoint

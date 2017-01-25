@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactStormpath from 'react-stormpath';
+import { Provider } from 'react-redux';
+import store from './store';
 import { ajaxConfig } from './common/ajax';
 import NavigationRouter from './navigationRouter';
 
-const serverUrl = process.env.SERVER_URL || 'http://127.0.0.1:3001';
+const serverUrl = 'http://127.0.0.1:3001';
 
 ajaxConfig({apiUrl: serverUrl});
 
@@ -20,7 +22,13 @@ ReactStormpath.init({
   }
 });
 
+const appComponent = (
+  <Provider store={store}>
+    <NavigationRouter />
+  </Provider>
+);
+
 ReactDOM.render(
-  <NavigationRouter />,
+  appComponent,
   document.getElementById('app')
 );

@@ -1,0 +1,8 @@
+FROM node:7.4-alpine
+
+#Install nodemon
+RUN npm install -g nodemon
+
+WORKDIR /usr/src/app/botwars/server
+
+ONBUILD COPY entrypoint /usr/local/bin

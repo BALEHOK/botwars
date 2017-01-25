@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  fe:
+    build: ./fe
+    volumes:
+      - ../../:/usr/src/app/botwars
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    environment:
+      SERVER_URL: "http://webserver:3001"
+    links:
+      - webserver
+    depends_on:
+      - webserver
+    restart: always
+  server:
+    build: ./server
+    image: botwars-server:latest
+  webserver:
+    build: ./web-server
+    volumes:
+      - ../../:/usr/src/app/botwars
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+    links:
+      - db
+    depends_on:
+      - db
+      - server
+    restart: always
+  gamesserver:
+    build: ./games-server
+    volumes:
+      - ../../:/usr/src/app/botwars
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+    links:
+      - db
+    depends_on:
+      - db
+      - server
+    restart: always
+  db:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 'pwd'
+    restart: always

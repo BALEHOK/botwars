@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "web": "nodemon -L web/server.js  --ignore games/",
+    "games": "nodemon -L games/server.js  --ignore web/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "PancakePRO",
@@ -16,6 +17,7 @@
     "express": "^4.14.0",
     "express-stormpath": "^3.1.8",
     "pg": "^6.1.2",
+    "rxjs": "^5.0.3",
     "uuid": "^3.0.1"
   }
 }

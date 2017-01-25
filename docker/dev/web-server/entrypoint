@@ -1,0 +1,3 @@
+#!/bin/ash
+npm install
+npm run web

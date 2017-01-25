@@ -1,0 +1,10 @@
+Hi everyone.
+
+The idea of the project is to give developers (and whoever is interested in) to create a bot (small programm) that can solve one or another problem in a most effective way. To put it simple, create an artificial player which beats everyone else.
+
+This is not where one can learn a new language or dialect (though you will definitelly have to learn the basic stuff). This is mostly about mathematics and efficient algorithms.
+
+Since I am the only maintainer of the porject, I am open to discuss any type of collaboration, including testing, donations, partnering, promotion, etc. If the idea sounds interesting to you and you don't mind to give some effort, don't hesitate to contact me.
+
+Best wishes,
+Alex
