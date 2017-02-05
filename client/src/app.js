@@ -6,7 +6,7 @@ import store from './store';
 import { ajaxConfig } from './common/ajax';
 import NavigationRouter from './navigationRouter';
 
-const serverUrl = 'http://127.0.0.1:3001';
+const serverUrl = API_URL || 'http://127.0.0.1:3001';
 
 ajaxConfig({apiUrl: serverUrl});
 

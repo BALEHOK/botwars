@@ -9,7 +9,7 @@ services:
     ports:
       - "80:3000"
     environment:
-      SERVER_URL: "http://webserver:3001"
+      - NODE_ENV=azure
     links:
       - webserver
     depends_on:
@@ -21,7 +21,8 @@ services:
     ports:
       - "3001:3001"
     environment:
-      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+      - NODE_ENV=azure
+      - DATABASE_URL=postgres://postgres:pwd@db:5432/postgres
     links:
       - db
     depends_on:
@@ -33,7 +34,8 @@ services:
     ports:
       - "3002:3002"
     environment:
-      DATABASE_URL: "postgres://postgres:pwd@db:5432/postgres"
+      - NODE_ENV=azure
+      - DATABASE_URL=postgres://postgres:pwd@db:5432/postgres
     links:
       - db
     depends_on:
@@ -45,5 +47,5 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: 'pwd'
+      - POSTGRES_PASSWORD=pwd
     restart: always

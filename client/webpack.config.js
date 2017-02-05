@@ -1,5 +1,8 @@
 var webpack = require('webpack');
 
+var env = process.env.NODE_ENV || 'development';
+var constants = require('./env/' + env);
+
 module.exports = {
   target: 'web',
   debug: true,
@@ -15,6 +18,9 @@ module.exports = {
     path: './public',
     filename: 'bundle-[name].js'
   },
+  plugins: [
+    new webpack.DefinePlugin(constants)
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
     modulesDirectories: ['node_modules']
