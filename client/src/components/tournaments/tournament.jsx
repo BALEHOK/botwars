@@ -19,7 +19,7 @@ export default class TournamentsList extends React.PureComponent {
       return <Loader />;
     }
 
-    const competitors = this.props.competitors && this.props.competitors.map((c, i) => (
+    const competitors = this.props.competitors && this.props.competitors.length && this.props.competitors.map((c, i) => (
         <div key={i} className="list-group-item">
           <h4 className="list-group-item-heading">{c.name}</h4>
           <p className="list-group-item-text">User: {c.username}</p>
