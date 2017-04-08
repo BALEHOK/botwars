@@ -12,6 +12,7 @@ module.exports = app => {
     stormpath.getUser(req, res, getUserId);
 
     function getUserId() {
+      console.log('user', req.user);
       if (req.user) {
         let username = req.user.username;
         usersRepo.getUserId(username)
